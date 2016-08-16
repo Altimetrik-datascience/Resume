@@ -1,0 +1,12 @@
+>> Right click on the project directory
+>> Click on Git Bash Here.
+ In Git Bash Type..
+>> git init
+>> git add README.md   ###(README.md is file name. If full drive need to upload then replace the file name with .[dot])
+>> git commit -m "first commit"
+>> git remote add origin https://github.com/Altimetrik-datascience/Resume.git ###(repository path)
+>> git push origin master
+
+### At last provide user name and password. 
+
+    ###########################  That's it  #############################
