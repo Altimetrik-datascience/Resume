@@ -9,21 +9,41 @@ source("final_test1.R")
 #---------------
 ### Academics...
 #---------------
-## Degree...******
+## Degree...******-----------------------------------------------------
 Degrees <- Academics[2:nrow(Academics),1]
-Degrees <- paste(Degrees, collapse = '|')
 
-## Specialization...******
+Degrees_df <- data.frame("NA")
+
+for(i in 1:length(Degrees)){
+  Degrees_df[paste0("Degrees",i)] <- Degrees[i]
+}
+
+## Specialization...******---------------------------------------------
 Specialization <- Academics[2:nrow(Academics),2]
-Specialization <- paste(Specialization, collapse = '|')
 
-## Institute / University Name...******
+Specialization_df <- data.frame("NA")
+
+for(i in 1:length(Specialization)){
+  Specialization_df[paste0("Specialization_For_Degree_",i)] <- Specialization[i]
+}
+
+## Institute / University Name...******--------------------------------
 University <- Academics[2:nrow(Academics),3]
-University <- paste(University, collapse = '|')
 
-## Details Years...******
+University_df <- data.frame("NA")
+
+for(i in 1:length(University)){
+  University_df[paste0("University_For_Degree_",i)] <- University[i]
+}
+
+## Details Years...******----------------------------------------------
 Years_for_Degree <- Academics[2:nrow(Academics),4]
-Years_for_Degree <- paste(Years_for_Degree, collapse = '|')
+
+Years_for_Degree_df <- data.frame("NA")
+
+for(i in 1:length(Years_for_Degree)){
+  Years_for_Degree_df[paste0("Years_for_Degree_",i)] <- Years_for_Degree[i]
+}
 
 #---------------
 ### Technical_Expertise...
@@ -35,47 +55,93 @@ Secondary_Skills <- Technical_Expertise[2,2]
 #---------------
 ### Technology_known...
 #---------------
-## List of Technology Known...******
+## List of Technology Known...******-----------------------------------
 technology_known <- Technology_known[2:nrow(Technology_known),2]
-technology_known <- paste(technology_known, collapse = '|')
 
-## Times For Each Technology...******
+technology_known_df <- data.frame("NA")
+
+for(i in 1:length(technology_known)){
+  technology_known_df[paste0("technology_known",i)] <- technology_known[i]
+}
+
+## Times For Each Technology...******----------------------------------
 time_for_each_technology <- Technology_known[2:nrow(Technology_known),3]
-time_for_each_technology <- paste(time_for_each_technology, collapse = '|')
+
+time_for_each_technology_df <- data.frame("NA")
+
+for(i in 1:length(time_for_each_technology)){
+  time_for_each_technology_df[paste0("Time_Spend_For_Technology",i)] <- time_for_each_technology[i]
+}
 
 #---------------
-### Cirtification...******
+### Cirtification...******---------------------------------------------
 #---------------
 Certification_Name <- Certification[2:nrow(Certification),1]
-Certification_Name <- paste(Certification_Name, collapse = '|')
 
-## Institute for Certifications...
+Certification_Name_df <- data.frame("NA")
+
+for(i in 1:length(Certification_Name)){
+  Certification_Name_df[paste0("certification",i,"_","Name")] <- Certification_Name[i]
+}
+
+## Institute for Certifications...-------------------------------------
 Certification_Institute <- Certification[2:nrow(Certification),2]
-Certification_Institute <- paste(Certification_Institute, collapse = '|')
 
-## Certification Year...
+Certification_Institute_df <- data.frame("NA")
+
+for(i in 1:length(Certification_Institute)){
+  Certification_Institute_df[paste0("certification",i,"_","Institute")] <- Certification_Institute[i]
+}
+
+## Certification Year...-----------------------------------------------
 Certification_Year <- Certification[2:nrow(Certification),3]
-Certification_Year <- paste(Certification_Year, collapse = '|')
+
+Certification_Year_df <- data.frame("NA")
+
+for(i in 1:length(Certification_Year)){
+  Certification_Year_df[paste0("certification",i,"_","Year")] <- Certification_Year[i]
+}
 
 #---------------
 ### Employment...******
 #---------------
-## Companies Worked For...
+## Companies Worked For...---------------------------------------------
 Company_Worked_For <- Employment[2:nrow(Employment),1]
-Company_Worked_For <- paste(Company_Worked_For, collapse = '|')
 
-## Designation For Each Company...
+company_df <- data.frame("NA")
+
+for(i in 1:length(Company_Worked_For)){
+  company_df[paste0("company",i)] <- Company_Worked_For[i]
+}
+
+
+## Designation For Each Company...--------------------------------------
 Deignation <- Employment[2:nrow(Employment),2]
-Deignation <- paste(Deignation, collapse = '|')
+deignation_df <- data.frame("NA")
 
-## Start Year For Each Company...
+for(i in 1:length(Deignation)){
+  deignation_df[paste0("company",i,"_","Deignations")] <- Deignation[i]
+}
+
+## Start Year For Each Company...---------------------------------------
 Start_Date <- Employment[2:nrow(Employment),3]
-Start_Date <- paste(Start_Date, collapse = '|')
 
-## End Date For Each Company...
+Start_Date_df <- data.frame("NA")
+
+for(i in 1:length(Deignation)){
+  Start_Date_df[paste0("company",i,"_","startDate")] <- Start_Date[i]
+}
+
+## End Date For Each Company...-----------------------------------------
 End_Date <- Employment[2:nrow(Employment),4]
-End_Date <- paste(End_Date, collapse = '|')
 
+End_Date_df <- data.frame("NA")
+
+for(i in 1:length(Deignation)){
+  End_Date_df[paste0("company",i,"_","endDate")] <- End_Date[i]
+}
+
+##########################################################################
 #---------------
 ### No of Project...
 #---------------
@@ -89,16 +155,9 @@ for(i in 1:no_of_project){
   eval(parse(text=table))
   print(paste("mydata[[",i,"]]",sep = ""))
 }
-
-#all_project <- do.call(rbind.data.frame, mydata)
-
-for(i in 1:no_of_project){
-  mydata[[i]][,3] <- paste0("project",mydata[[i]][,1] ," : ", mydata[[i]][,2])
-}
-#mydata[[4]][,3]
-
-
-for(i in 1:no_of_project){
-  #assign(paste0("pro",i),mydata[[1]][,3][1:nrow(mydata[[i]])])
-  assign(paste0("pr",i),paste(mydata[[1]][,3][1:nrow(mydata[[i]])], collapse = '|'))
-}
+## Final Project Data Frame
+project_df <- data.frame("NA")
+for(j in 1:length(mydata)){
+  for(i in 1:length(mydata[[j]][,1])){
+    project_df[paste0("project",j,"_",mydata[[j]][,1][i])] <- mydata[[j]][,2][i]
+  }}
