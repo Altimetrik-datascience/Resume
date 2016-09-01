@@ -10,42 +10,197 @@ library(data.table)
 ####| Full Project Data...  |
 ####|-----------------------'
 
-Resume_df <- list()
-project_df <- data.frame("NA")
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+pro_title <-list()
+pro_period <- list()
+pro_company <- list()
+pro_client <- list()
+pro_role <- list()
+pro_type <- list()
+pro_respo <- list()
+pro_description <- list()
+pro_software <- list()
+pro_hardware <- list()
+pro_tools <- list()
+pro_database <- list()
+pro_team <- list()
+
+
 for(i in 1:length(temp)){
-  
-  #assign(paste0("project_df",i) , data.frame("NA"))
-  if(length(get(paste0("projectdata",i))) >20){
-    
-    for(j in 1:20){
-      for(k in 1:length(get(paste0("projectdata",i))[[j]][["V1"]])){
-        #d <- paste0("projectdata",i)
-        project_df[paste0("project",j,"_",get(paste0("projectdata",i))[[j]][["V1"]][k])] <- get(paste0("projectdata",i))[[j]][["V2"]][k]
-        
-        Resume_df[[i]] <- project_df
-        #Resume_data <- rbind.fill(Resume_df[[i]],Resume_df[[i+1]])
-        
-      }
-    }
-    print(paste0("Resume_df","[[",i,"]]"))
-    
-  }else{
-    if(get(paste0("projectdata",i))[[1]][1]=="NULL"){
-      project_df <- data.frame(project="NA")
-      Resume_df[[i]] <- project_df
-    }else{
+
+  title_l <- length(which(grepl("Title",get(paste0("projectdata",i))[[1]][["V1"]])))
+  period_l <- length(which(grepl("Period",get(paste0("projectdata",i))[[1]]$V1)))
+  company_l <- length(which(grepl("Company",get(paste0("projectdata",i))[[1]]$V1)))
+  client_l <- length(which(grepl("Client",get(paste0("projectdata",i))[[1]]$V1)))
+  role_l <- length(which(grepl("Role",get(paste0("projectdata",i))[[1]]$V1)))
+  type_l <- length(which(grepl("type",get(paste0("projectdata",i))[[1]]$V1)))
+  respons_l <- length(which(grepl("Role / Responsibilities",get(paste0("projectdata",i))[[1]]$V1)))
+  description_l <- length(which(grepl("Description",get(paste0("projectdata",i))[[1]]$V1)))
+software_l <- length(which(grepl("software",get(paste0("projectdata",i))[[1]]$V1)))
+hardware_l <- length(which(grepl("hardware",get(paste0("projectdata",i))[[1]]$V1)))
+tools_l <- length(which(grepl("Tools",get(paste0("projectdata",i))[[1]]$V1)))
+database_l <- length(which(grepl("Database",get(paste0("projectdata",i))[[1]]$V1)))
+team_l <- length(which(grepl("Team Size Handled",get(paste0("projectdata",i))[[1]]$V1)))
+#________________________________________________________________________
+title <- (which(grepl("Title",get(paste0("projectdata",i))[[1]]$V1)))
+period <- (which(grepl("Period",get(paste0("projectdata",i))[[1]]$V1)))
+company <- (which(grepl("Company",get(paste0("projectdata",i))[[1]]$V1)))
+client <- (which(grepl("Client",get(paste0("projectdata",i))[[1]]$V1)))
+role <- (which(grepl("Role",get(paste0("projectdata",i))[[1]]$V1)))
+type <- (which(grepl("type",get(paste0("projectdata",i))[[1]]$V1)))
+respons <- (which(grepl("Role / Responsibilities",get(paste0("projectdata",i))[[1]]$V1)))
+description <- (which(grepl("Description",get(paste0("projectdata",i))[[1]]$V1)))
+software <- (which(grepl("software",get(paste0("projectdata",i))[[1]]$V1)))
+hardware <- (which(grepl("hardware",get(paste0("projectdata",i))[[1]]$V1)))
+tools <- (which(grepl("Tools",get(paste0("projectdata",i))[[1]]$V1)))
+database <- (which(grepl("Database",get(paste0("projectdata",i))[[1]]$V1)))
+team <- (which(grepl("Team Size Handled",get(paste0("projectdata",i))[[1]]$V1)))
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#num <-  c(title,period,company,client,role,type,respons,description,software,hardware,tools,database,team)
+l <-  title_l+period_l+company_l+client_l+role_l+type_l+respons_l+description_l+software_l+hardware_l+tools_l+database_l+team_l
+
+#project_df <- data.frame("NA")
+title_df <- data.frame("NA")
+period_df <- data.frame("NA")
+company_df <- data.frame("NA")
+client_df <- data.frame("NA")
+role_df <- data.frame("NA")
+type_df <- data.frame("NA")
+respo_df <- data.frame("NA")
+description_df <- data.frame("NA")
+software_df <- data.frame("NA")
+hardware_df <- data.frame("NA")
+tools_df <- data.frame("NA")
+database_df <- data.frame("NA")
+team_df <- data.frame("NA")
+
   for(j in 1:length(get(paste0("projectdata",i)))){
-    for(k in 1:length(get(paste0("projectdata",i))[[j]][["V1"]])){
-      #d <- paste0("projectdata",i)
-      project_df[paste0("project",j,"_",get(paste0("projectdata",i))[[j]][["V1"]][k])] <- get(paste0("projectdata",i))[[j]][["V2"]][k]
-      
-      Resume_df[[i]] <- project_df
-      #Resume_data <- rbind.fill(Resume_df[[i]],Resume_df[[i+1]])
+    
+    if(title_l > 0){
+      title_df[paste0("project",j,"_","Title")] <- get(paste0("projectdata",i))[[j]][["V2"]][title]
+      title_df$X.NA. <- NULL
+      pro_title[[i]] <- title_df
+    }else{
+      title_df[paste0("project",j,"_","Title")] <- "NA"
+      title_df$X.NA. <- NULL
+      pro_title[[i]] <- title_df
     }
+    if(period_l > 0){
+      period_df[paste0("project",j,"_","Period")] <- get(paste0("projectdata",i))[[j]][["V2"]][period]
+      period_df$X.NA. <- NULL
+      pro_period[[i]] <- period_df
+    }else{
+      period_df[paste0("project",j,"_","Period")] <- "NA"
+      period_df$X.NA. <- NULL
+      pro_period[[i]] <- period_df
+    }
+    if(company_l > 0){
+      company_df[paste0("project",j,"_","Company")] <- get(paste0("projectdata",i))[[j]][["V2"]][company]
+      company_df$X.NA. <- NULL
+      pro_company[[i]] <- company_df
+    }else{
+      company_df[paste0("project",j,"_","Company")] <- "NA"
+      company_df$X.NA. <- NULL
+      pro_company[[i]] <- company_df
+    }
+    if(client_l > 0){
+      client_df[paste0("project",j,"_","Client")] <- get(paste0("projectdata",i))[[j]][["V2"]][client]
+      client_df$X.NA. <- NULL
+      pro_client[[i]] <- client_df
+    }else{
+      client_df[paste0("project",j,"_","Client")] <- "NA"
+      client_df$X.NA. <- NULL
+      pro_client[[i]] <- client_df
+    }
+    if(role_l > 0){
+      role_df[paste0("project",j,"_","Role")] <- get(paste0("projectdata",i))[[j]][["V2"]][role[1]]
+      role_df$X.NA. <- NULL
+      pro_role[[i]] <- role_df
+    }else{
+      role_df[paste0("project",j,"_","Role")] <- "NA"
+      role_df$X.NA. <- NULL
+      pro_role[[i]] <- role_df
+    }
+    if(type_l > 0){
+      type_df[paste0("project",j,"_","type")] <- get(paste0("projectdata",i))[[j]][["V2"]][type]
+      type_df$X.NA. <- NULL
+      pro_type[[i]] <- type_df
+    }else{
+      type_df[paste0("project",j,"_","type")] <- "NA"
+      type_df$X.NA. <- NULL
+      pro_type[[i]] <- type_df
+    }
+    if(respons_l > 0){
+      respo_df[paste0("project",j,"_","Role / Responsibilities")] <- get(paste0("projectdata",i))[[j]][["V2"]][respons]
+      respo_df$X.NA. <- NULL
+      pro_respo[[i]] <- respo_df
+    }else{
+      respo_df[paste0("project",j,"_","Role / Responsibilities")] <- "NA"
+      respo_df$X.NA. <- NULL
+      pro_respo[[i]] <- respo_df
+    }
+    if(description_l > 0){
+      description_df[paste0("project",j,"_","Description")] <- get(paste0("projectdata",i))[[j]][["V2"]][description]
+      description_df$X.NA. <- NULL
+      pro_description[[i]] <- description_df
+    }else{
+      description_df[paste0("project",j,"_","Description")] <- "NA"
+      description_df$X.NA. <- NULL
+      pro_description[[i]] <- description_df
+    }
+    if(software_l > 0){
+      software_df[paste0("project",j,"_","software")] <- get(paste0("projectdata",i))[[j]][["V2"]][software]
+      software_df$X.NA. <- NULL
+      pro_software[[i]] <- software_df
+    }else{
+      software_df[paste0("project",j,"_","software")] <- "NA"
+      software_df$X.NA. <- NULL
+      pro_software[[i]] <- software_df
+    }
+    if(hardware_l > 0){
+      hardware_df[paste0("project",j,"_","Hardware")] <- get(paste0("projectdata",i))[[j]][["V2"]][hardware]
+      hardware_df$X.NA. <- NULL
+      pro_hardware[[i]] <- hardware_df
+    }else{
+      hardware_df[paste0("project",j,"_","Hardware")] <- "NA"
+      hardware_df$X.NA. <- NULL
+      pro_hardware[[i]] <- hardware_df
+    }
+    if(tools_l > 0){
+      tools_df[paste0("project",j,"_","Tools")] <- get(paste0("projectdata",i))[[j]][["V2"]][tools]
+      tools_df$X.NA. <- NULL
+      pro_tools[[i]] <- tools_df
+    }else{
+      tools_df[paste0("project",j,"_","Tools")] <- "NA"
+      tools_df$X.NA. <- NULL
+      pro_tools[[i]] <- tools_df
+    }
+    if(database_l > 0){
+      database_df[paste0("project",j,"_","Database")] <- get(paste0("projectdata",i))[[j]][["V2"]][database]
+      database_df$X.NA. <- NULL
+      pro_database[[i]] <- database_df
+    }else{
+      database_df[paste0("project",j,"_","Database")] <- "NA"
+      database_df$X.NA. <- NULL
+      pro_database[[i]] <- database_df
+    }
+   
+    if(team_l > 0){
+      team_df[paste0("project",j,"_","Team Size Handled")] <- get(paste0("projectdata",i))[[j]][["V2"]][team]
+      team_df$X.NA. <- NULL
+      pro_team[[i]] <- team_df
+    }else{
+      team_df[paste0("project",j,"_","Team Size Handled")] <- "NA"
+      team_df$X.NA. <- NULL
+      pro_team[[i]] <- team_df
     }
   }
-  print(paste0("Resume_df","[[",i,"]]"))
-}}
+}
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 #######################################
 Degrees_d <- list()                   #
@@ -82,7 +237,23 @@ for(i in 1:length(temp)){
 ####| Create Each Column Separately...  |
 ####|-----------------------------------'
 
-Project_data <- rbind.fill(lapply(Resume_df,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+#Project_data <- rbind.fill(lapply(Resume_df,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+## For only Project Field...
+project_title <- rbind.fill(lapply(pro_title,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_period <- rbind.fill(lapply(pro_period,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_company <- rbind.fill(lapply(pro_company,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_client <- rbind.fill(lapply(pro_client,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_role <- rbind.fill(lapply(pro_role,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_type <- rbind.fill(lapply(pro_type,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_respo <- rbind.fill(lapply(pro_respo,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_description <- rbind.fill(lapply(pro_description,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_software <- rbind.fill(lapply(pro_software,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_hardware <- rbind.fill(lapply(pro_hardware,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_tools <- rbind.fill(lapply(pro_tools,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_database <- rbind.fill(lapply(pro_database,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+project_team <- rbind.fill(lapply(pro_team,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+
+## For others...
 Name_data <- t(data.frame(Name_Header))
 Training_Attended_data <- t(data.frame(Training_Attended))
 profile_summary_data <- t(data.frame(profile_summary))
@@ -91,19 +262,28 @@ Secondary_Skills_data <- t(data.frame(Secondary_Skills))
 information_data  <- t(data.frame(Information))
 Personal_data  <- t(data.frame(Personal_information))
 Degrees_data <- rbind.fill(lapply(Degrees_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+Degrees_data$`(y)` <- NULL
 Specialization_data <- rbind.fill(lapply(Specialization_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+Specialization_data$`(y)` <- NULL
 University_data <- rbind.fill(lapply(University_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+University_data$`(y)` <- NULL
 Years_for_Degree_data <- rbind.fill(lapply(Years_for_Degree_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+Years_for_Degree_data$`(y)` <- NULL
 technology_known_data <- rbind.fill(lapply(technology_known_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+technology_known_data$`(y)` <- NULL
 time_for_each_technology_data <- rbind.fill(lapply(time_for_each_technology_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+time_for_each_technology_data$`(y)` <- NULL
 Certification_Name_data <- rbind.fill(lapply(Certification_Name_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
 Certification_Institute_data <- rbind.fill(lapply(Certification_Institute_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
 Certification_Year_d <- rbind.fill(lapply(Certification_Year_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
 Company_Worked_For_data <- rbind.fill(lapply(Company_Worked_For_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+Company_Worked_For_data$`(y)` <- NULL
 Deignation_data <- rbind.fill(lapply(Deignation_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+Deignation_data$`(y)` <- NULL
 Start_Date_data <- rbind.fill(lapply(Start_Date_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
+Start_Date_data$`(y)` <- NULL
 End_Date_data <- rbind.fill(lapply(End_Date_d,function(y){as.data.frame((y),stringsAsFactors=FALSE)}))
-
+End_Date_data$`(y)` <- NULL
 
 #______________________________________________________________________________
 ## Refresh row names to sequence
@@ -127,7 +307,20 @@ rownames(Company_Worked_For_data) <- NULL;nrow(Company_Worked_For_data)
 rownames(Deignation_data) <- NULL;nrow(Deignation_data)
 rownames(Start_Date_data) <- NULL;nrow(Start_Date_data)
 rownames(End_Date_data) <- NULL;nrow(End_Date_data)
-nrow(Project_data)
+#nrow(Project_data)
+rownames(project_title) <- NULL;nrow(project_title)
+rownames(project_period) <- NULL;nrow(project_period)
+rownames(project_company) <- NULL;nrow(project_company)
+rownames(project_client) <- NULL;nrow(project_client)
+rownames(project_role) <- NULL;nrow(project_role)
+rownames(project_type) <- NULL;nrow(project_type)
+rownames(project_respo) <- NULL;nrow(project_respo)
+rownames(project_description) <- NULL;nrow(project_description)
+rownames(project_software) <- NULL;nrow(project_software)
+rownames(project_hardware) <- NULL;nrow(project_hardware)
+rownames(project_tools) <- NULL;nrow(project_tools)
+rownames(project_database) <- NULL;nrow(project_database)
+rownames(project_team) <- NULL;nrow(project_team)
 #__________________________________________________________________________________
 
 ####|-----------------------------------------------------.
@@ -225,7 +418,7 @@ if(s_col > 10){
 
 # Create Column for time_for_each_technology_data..
 s_col <- ncol(time_for_each_technology_data)
-time_for_each_technology_data$`(y)` <- NULL
+#time_for_each_technology_data$`(y)` <- NULL
 
 if(s_col > 20){
   time_for_each_technology_data <- time_for_each_technology_data[,1:10]
@@ -238,7 +431,7 @@ if(s_col > 20){
 
 # Create Column for technology_known_data..
 s_col <- ncol(technology_known_data)
-technology_known_data$`(y)` <- NULL
+#technology_known_data$`(y)` <- NULL
 
 if(s_col > 20){
   technology_known_data <- technology_known_data[,1:10]
@@ -251,7 +444,7 @@ if(s_col > 20){
 
 # Create Column for Certification_Name_data..
 s_col <- ncol(Certification_Name_data)
-Certification_Name_data$`(y)` <- NULL
+#Certification_Name_data$`(y)` <- NULL
 
 if(s_col > 10){
   Certification_Name_data <- Certification_Name_data[,1:10]
@@ -264,7 +457,7 @@ if(s_col > 10){
 
 # Create Column for Certification_Institute_data..
 s_col <- ncol(Certification_Institute_data)
-Certification_Institute_data$`(y)` <- NULL
+#Certification_Institute_data$`(y)` <- NULL
 
 if(s_col > 10){
   Certification_Institute_data <- Certification_Institute_data[,1:10]
@@ -326,6 +519,194 @@ if(s_col > 10){
     End_Date_data[,s_col+1] <- NA
     colnames(End_Date_data)[s_col+1] <- paste0("End_Date",l)
   }}
+
+# Create Column for project_title..
+s_col <- ncol(project_title)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_title <- project_title[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_title)
+    project_title[,s_col+1] <- NA
+    colnames(project_title)[s_col+1] <- paste0("project",l,"_Title")
+  }}
+
+# Create Column for project_period..
+s_col <- ncol(project_period)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_period <- project_period[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_period)
+    project_period[,s_col+1] <- NA
+    colnames(project_period)[s_col+1] <- paste0("project",l,"_Period")
+  }}
+
+# Create Column for project_company..
+s_col <- ncol(project_company)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_company <- project_company[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_company)
+    project_company[,s_col+1] <- NA
+    colnames(project_company)[s_col+1] <- paste0("project",l,"_Company")
+  }}
+
+# Create Column for project_client..
+s_col <- ncol(project_client)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_client <- project_client[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_client)
+    project_client[,s_col+1] <- NA
+    colnames(project_client)[s_col+1] <- paste0("project",l,"_Client")
+  }}
+
+# Create Column for project_role..
+s_col <- ncol(project_role)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_role <- project_role[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_role)
+    project_role[,s_col+1] <- NA
+    colnames(project_role)[s_col+1] <- paste0("project",l,"_Role")
+  }}
+
+# Create Column for project_type..
+s_col <- ncol(project_type)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_type <- project_type[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_type)
+    project_type[,s_col+1] <- NA
+    colnames(project_type)[s_col+1] <- paste0("project",l,"_type")
+  }}
+
+# Create Column for project_respo..
+s_col <- ncol(project_respo)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_respo <- project_respo[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_respo)
+    project_respo[,s_col+1] <- NA
+    colnames(project_respo)[s_col+1] <- paste0("project",l,"_Role / Responsibilities")
+  }}
+
+# Create Column for project_description..
+s_col <- ncol(project_description)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_description <- project_description[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_description)
+    project_description[,s_col+1] <- NA
+    colnames(project_description)[s_col+1] <- paste0("project",l,"_Description")
+  }}
+
+# Create Column for project_software..
+s_col <- ncol(project_software)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_software <- project_software[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_software)
+    project_software[,s_col+1] <- NA
+    colnames(project_software)[s_col+1] <- paste0("project",l,"_software")
+  }}
+
+# Create Column for project_hardware..
+s_col <- ncol(project_hardware)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_hardware <- project_hardware[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_hardware)
+    project_hardware[,s_col+1] <- NA
+    colnames(project_hardware)[s_col+1] <- paste0("project",l,"_Hardware")
+  }}
+
+# Create Column for project_tools..
+s_col <- ncol(project_tools)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_tools <- project_tools[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_tools)
+    project_tools[,s_col+1] <- NA
+    colnames(project_tools)[s_col+1] <- paste0("project",l,"_Tools")
+  }}
+
+# Create Column for project_database..
+s_col <- ncol(project_database)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_database <- project_database[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_database)
+    project_database[,s_col+1] <- NA
+    colnames(project_database)[s_col+1] <- paste0("project",l,"_Database")
+  }}
+
+# Create Column for project_team..
+s_col <- ncol(project_team)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 20){
+  project_team <- project_team[,1:20]
+}else{
+  for(l in (s_col+1):20){
+    s_col <- ncol(project_team)
+    project_team[,s_col+1] <- NA
+    colnames(project_team)[s_col+1] <- paste0("project",l,"_Team Size Handled")
+  }}
+
+# Create Column for Years_for_Degree_data..
+s_col <- ncol(Years_for_Degree_data)
+#Company_Worked_For_data$`(y)` <- NULL
+
+if(s_col > 10){
+  Years_for_Degree_data <- project_team[,1:10]
+}else{
+  for(l in (s_col+1):10){
+    s_col <- ncol(Years_for_Degree_data)
+    Years_for_Degree_data[,s_col+1] <- NA
+    colnames(Years_for_Degree_data)[s_col+1] <- paste0("Years_for_Degree",l)
+  }}
+
+
+Project_data <- cbind(project_title,project_period,project_company,project_client,
+                      project_role,project_type,project_respo,project_description,
+                      project_software,project_hardware,project_tools,project_database,
+                      project_team)
 
 #_______________________________________________________________________
 ####|------------------------------------------------------.
@@ -478,4 +859,4 @@ Resume_output1 <- apply(Resume_output, 2, function(y) (gsub(",", "|", y)))
 setwd("C:/Users/anaskar/Desktop/HR_Analytics/output_data")
 
 
-write.csv(Resume_output1,file = "final_data4.csv")
+write.csv(Resume_output1,file = "Resume_data4.csv")

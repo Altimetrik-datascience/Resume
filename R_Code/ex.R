@@ -36,7 +36,8 @@ for(i in 1:length(temp)){
   #------------------------------------------------------------------'
   ### Academics...******---------------------------------------------------
   if(length(which(grepl("Degree/ Education",text)))==0){
-    Academics[[i]] <- "NULL"
+    Academics[[i]] <- data.frame(Degree ="NA")
+    
   }else{
     Academics[[i]] <- 
       (docx_extract_all_tbls(read_docx(temp[i]))[[which(grepl("Degree/ Education",text))]])
@@ -48,14 +49,14 @@ for(i in 1:length(temp)){
                      'Institute / University Name','Details (Years)'))}
   ## Technical Expertise...******------------------------------------------
   if(length(which(grepl("Primary Skills",text)))==0){
-    Technical_Expertise[[i]] <- "NULL"
+    Technical_Expertise[[i]] <- data.frame(V1="NA")
   }else{
     Technical_Expertise[[i]] <- 
       (docx_extract_all_tbls(read_docx(temp[i]))[[which(grepl("Primary Skills",text))]])
     print(paste0("Technical_Expertise[[",i,"]]"))}
   ## Technology Known...******---------------------------------------------
   if(length(which(grepl("Technology",text)))==0){
-    Technology_known[[i]] <- "NULL"
+    Technology_known[[i]] <- data.frame(Technology="NA")
   }else{
     Technology_known[[i]] <- 
       as.data.frame(docx_extract_all_tbls(read_docx(temp[i]))[[which(grepl("Technology",text))]])
@@ -67,7 +68,7 @@ for(i in 1:length(temp)){
                      'Experience (No. of Months)'))}
   ## Technical/ Professional Certifications...******-----------------------
   if(length(which(grepl("Certification",text)))==0){
-    Certification[[i]] <- "NULL"
+    Certification[[i]] <- data.frame(Certification_name="NA")
   }else{
     Certification[[i]] <- 
       (docx_extract_all_tbls(read_docx(temp[i]))[[which(grepl("Certification",text))]])
@@ -79,7 +80,7 @@ for(i in 1:length(temp)){
                      'Year of Completion'))}
   ## Employment History...******-------------------------------------------
   if(length(which(grepl("Company Name",text)))==0){
-    Employment[[i]] <- "NULL"
+    Employment[[i]] <- data.frame(Company_Name="NA")
   }else{
     Employment[[i]] <- 
       (docx_extract_all_tbls(read_docx(temp[i]))[[which(grepl("Company Name",text))[1]]])
@@ -93,7 +94,7 @@ for(i in 1:length(temp)){
   #no_of_project <- length(docx_extract_all_tbls(read_docx(temp[i])))
   
   assign(paste0("projectdata",i) , list())
-  assign(paste0("mydata",i) , list())
+  #assign(paste0("mydata",i) , list())
   for(j in which(grepl("Title",text))){
     
     

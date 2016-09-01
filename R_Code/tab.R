@@ -44,7 +44,7 @@ for(i in 1:length(temp)){
   ####| Academics...          |
   ####|-----------------------'
   ## Degree...******-----------------------------------------------------
-  if(Academics[[i]][1]=="NULL"){
+  if(ncol(Academics[[i]])==1){
     assign(paste0("Degrees_df",i),NA)
     assign(paste0("Specialization_df",i),NA)
     assign(paste0("University_df",i),NA)
@@ -110,7 +110,7 @@ for(i in 1:length(temp)){
   ####| Technical_Expertise...|
   ####|-----------------------'
   ## Primary and Secondary Skills...******--------------------------------
-  if(Technical_Expertise[[i]][1]=="NULL"){
+  if(ncol(Technical_Expertise[[i]])==1){
     Primary_Skills[[i]] <- NA
     Secondary_Skills[[i]] <- NA
   }else{
@@ -122,7 +122,7 @@ for(i in 1:length(temp)){
   ####| Technology_known...   |
   ####|-----------------------'
   ## List of Technology Known...******------------------------------------
-  if(Technology_known[[i]][1]=="NULL"){
+  if(ncol(Technology_known[[i]])==1){
     assign(paste0("technology_known_df",i),NA)
     assign(paste0("time_for_each_technology_df",i),NA)
   }else{
@@ -158,10 +158,10 @@ for(i in 1:length(temp)){
   ####| Cirtification...      |
   ####|-----------------------'
   # Certification Name...******-----------------------------------------
-  if(Certification[[i]][1]=="NULL"){
-    assign(paste0("Certification_Name_df",i),NA)
-    assign(paste0("Certification_Institute_df",i),NA)
-    assign(paste0("Certification_Year_df",i),NA)
+  if(ncol(Certification[[i]])==1){
+    assign(paste0("Certification_Name_df",i),list(Certification_Name1=NA))
+    assign(paste0("Certification_Institute_df",i),list(Certification_Institute1=NA))
+    assign(paste0("Certification_Year_df",i),list(Certification_Year1=NA))
   }else{
     assign(paste0("Certification_Name_df",i) , list())
     Certification_Name[[i]] <- Certification[[i]][2:nrow(Certification[[i]]),1]
@@ -209,7 +209,7 @@ for(i in 1:length(temp)){
   ####| Employment...         |
   ####|-----------------------'
   ## Companies Worked For...---------------------------------------------
-  if(Employment[[i]][1]=="NULL"){
+  if(ncol(Employment[[i]])==1){
     assign(paste0("Company_Worked_For_df",i),NA)
     assign(paste0("Start_Date_df",i),NA)
     assign(paste0("End_Date_df",i),NA)
@@ -277,7 +277,7 @@ for(i in 1:length(temp)){
   ## Project list with title...******-------------------------------------
 
   if(length(get(paste0("projectdata",i))) == 0){
-    assign(paste0("projectdata",i),list("NULL"))
+    assign(paste0("projectdata",i),list(list(V1 = "NULL")))
     
   }else{assign(paste0("projectdata",i),get(paste0("projectdata",i)))}  
 }
