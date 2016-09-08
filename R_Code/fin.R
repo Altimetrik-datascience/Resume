@@ -712,10 +712,98 @@ Project_data <- cbind(project_title,project_period,project_company,project_clien
 ####|------------------------------------------------------.
 ####| Combine All Columns Together except Personal_data... |
 ####|------------------------------------------------------'
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+## Calculate total years of experience ...
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Start_Date_data <- data.frame(lapply(Start_Date_data, as.character), stringsAsFactors=FALSE)
 
+#Start_Date_data[which(is.na(Start_Date_data$Start_Date1)),1] <- "0"
+write.csv(Start_Date_data,file = "Start_Date_data.csv")
+Start_Date_data <- read.csv("Start_Date_data.csv", header=T, na.strings=c("","NA"))
+Start_Date_data$X <- NULL
+Start_Date_data <- data.frame(lapply(Start_Date_data, as.character), stringsAsFactors=FALSE)
+Start_Date_data[which(is.na(Start_Date_data$Start_Date1)),1] <- "00000"
+
+d_st <- data.frame(NA)
+colnames(d_st)[1] <- "start_date"
+
+for(i in 1:nrow(Start_Date_data)){
+  if(Start_Date_data[i,1]=="00000"){
+    d_st[i,1] <- "00000"
+  }else{
+    lc <- which(!is.na(Start_Date_data[i,]))
+    d_st[i,1] <- Start_Date_data[i,lc[length(lc)]]
+  }
+}
+
+d_st$start_date <- tolower(d_st$start_date)
+
+d_st$start_date <- gsub("jan|january","01/",d_st$start_date)
+d_st$start_date <- gsub("feb|february","02/",d_st$start_date)
+d_st$start_date <- gsub("mar|march","03/",d_st$start_date)
+d_st$start_date <- gsub("apr|april","04/",d_st$start_date)
+d_st$start_date <- gsub("may|may","05/",d_st$start_date)
+d_st$start_date <- gsub("jun|june","06/",d_st$start_date)
+d_st$start_date <- gsub("jul|july","07/",d_st$start_date)
+d_st$start_date <- gsub("aug|august","08/",d_st$start_date)
+d_st$start_date <- gsub("sep|september","09/",d_st$start_date)
+d_st$start_date <- gsub("oct|october","10/",d_st$start_date)
+d_st$start_date <- gsub("nov|november","11/",d_st$start_date)
+d_st$start_date <- gsub("dec|december","12/",d_st$start_date)
+
+d_st$start_date <- gsub("\\.","/",d_st$start_date)
+d_st$start_date <- gsub("-","/",d_st$start_date)
+#d_st$start_date <- gsub("not applied","0",d_st$start_date)
+
+d_st$start_date <- gsub("'", "/", d_st$start_date)
+d_st$start_date <- gsub("//", "/", d_st$start_date)
+#d_st$start_date <- gsub("//", "/", d_st$start_date)
+d_st$start_date <- gsub("-","/",d_st$start_date)
+d_st$start_date <- gsub("th","",d_st$start_date)
+#d_st$start_date <- gsub("//", "/", d_st$start_date)
+#d_st$start_date <- gsub("/ /", "/", d_st$start_date)
+d_st$start_date <- gsub("\\|", "/", d_st$start_date)
+
+d_st$start_date <- gsub("\\*", "", d_st$start_date)
+d_st$start_date <- gsub("^/", "", d_st$start_date)
+d_st$start_date <- gsub(",", "/", d_st$start_date)
+##------------------------------------------------------------------------------
+d_st$start_date <- paste0("/",d_st$start_date)
+
+sp <- strsplit(d_st$start_date,"/")
+
+#sp[[1]][4]
+#length(sp[[1]])
+
+for(i in 1:nrow(d_st)){
+  d_st[i,2] <- sp[[i]][length(sp[[i]])]
+}
+
+d_st$V2 <- gsub("'","",d_st$V2)
+
+pa90 <- which(grepl("^9",d_st$V2))
+pa <- which(nchar(d_st$V2)<3)
+pa
+#which(grepl(pa90[1],pa))
+pa <- pa[-which(grepl(pa90,pa))]
+d_st[pa,2] <- paste0("20",d_st[pa,2])
+d_st[pa90,2] <- paste0("19",d_st[pa90,2])
+
+colnames(d_st)[2] <- "start_year"
+
+d_st$end_year <- "2016"
+
+d_st$start_date <- as.numeric(d_st$start_year)
+d_st$end_year <- as.numeric(d_st$end_year)
+d_st$total_exp <- as.numeric(d_st$end_year)- as.numeric(d_st$start_year)
+
+del <- which(d_st$total_exp>1000)
+d_st[del,4] <- 00000
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Resume_output <- cbind(Name_data,profile_summary_data,Training_Attended_data,
                        Primary_Skills_data,Secondary_Skills_data,information_data,
-                       Personal_data,Degrees_data,Specialization_data,University_data,
+                       Personal_data,d_st$total_exp,Degrees_data,Specialization_data,University_data,
                        Years_for_Degree_data,technology_known_data,
                        time_for_each_technology_data,Certification_Name_data,
                        Certification_Institute_data,
@@ -853,10 +941,11 @@ if(s_col > 10){
 #Language_known <- Language_known[-c(21,31),]
 #Primary_Skills_data_fin <- Primary_Skills_data_fin[,1:20]
 Resume_output <- cbind(Resume_output,Primary_Skills_data_fin,Secondary_Skills_data_fin,Language_known)
+colnames(Resume_output)[8] <- "total_experience"
 
 Resume_output1 <- apply(Resume_output, 2, function(y) (gsub(",", "|", y)))
 
 setwd("C:/Users/anaskar/Desktop/HR_Analytics/output_data")
 
 
-write.csv(Resume_output1,file = "Resume_data4.csv")
+write.csv(Resume_output1,file = "Resume_data2.csv")
